@@ -6,3 +6,4 @@ old/
 *.wav
 *.m4a
 .DS_Store
+dist/

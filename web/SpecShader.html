@@ -1,0 +1,1455 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}</style></head><body>
+<title>SpecShader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* CodeMirror 5.65.16 (MIT) */
+.CodeMirror{font-family:monospace;height:300px;color:#000;direction:ltr}.CodeMirror-lines{padding:4px 0}.CodeMirror pre.CodeMirror-line,.CodeMirror pre.CodeMirror-line-like{padding:0 4px}.CodeMirror-gutter-filler,.CodeMirror-scrollbar-filler{background-color:#fff}.CodeMirror-gutters{border-right:1px solid #ddd;background-color:#f7f7f7;white-space:nowrap}.CodeMirror-linenumber{padding:0 3px 0 5px;min-width:20px;text-align:right;color:#999;white-space:nowrap}.CodeMirror-guttermarker{color:#000}.CodeMirror-guttermarker-subtle{color:#999}.CodeMirror-cursor{border-left:1px solid #000;border-right:none;width:0}.CodeMirror div.CodeMirror-secondarycursor{border-left:1px solid silver}.cm-fat-cursor .CodeMirror-cursor{width:auto;border:0!important;background:#7e7}.cm-fat-cursor div.CodeMirror-cursors{z-index:1}.cm-fat-cursor .CodeMirror-line::selection,.cm-fat-cursor .CodeMirror-line>span::selection,.cm-fat-cursor .CodeMirror-line>span>span::selection{background:0 0}.cm-fat-cursor .CodeMirror-line::-moz-selection,.cm-fat-cursor .CodeMirror-line>span::-moz-selection,.cm-fat-cursor .CodeMirror-line>span>span::-moz-selection{background:0 0}.cm-fat-cursor{caret-color:transparent}@-moz-keyframes blink{50%{background-color:transparent}}@-webkit-keyframes blink{50%{background-color:transparent}}@keyframes blink{50%{background-color:transparent}}.cm-tab{display:inline-block;text-decoration:inherit}.CodeMirror-rulers{position:absolute;left:0;right:0;top:-50px;bottom:0;overflow:hidden}.CodeMirror-ruler{border-left:1px solid #ccc;top:0;bottom:0;position:absolute}.cm-s-default .cm-header{color:#00f}.cm-s-default .cm-quote{color:#090}.cm-negative{color:#d44}.cm-positive{color:#292}.cm-header,.cm-strong{font-weight:700}.cm-em{font-style:italic}.cm-link{text-decoration:underline}.cm-strikethrough{text-decoration:line-through}.cm-s-default .cm-keyword{color:#708}.cm-s-default .cm-atom{color:#219}.cm-s-default .cm-number{color:#164}.cm-s-default .cm-def{color:#00f}.cm-s-default .cm-variable-2{color:#05a}.cm-s-default .cm-type,.cm-s-default .cm-variable-3{color:#085}.cm-s-default .cm-comment{color:#a50}.cm-s-default .cm-string{color:#a11}.cm-s-default .cm-string-2{color:#f50}.cm-s-default .cm-meta{color:#555}.cm-s-default .cm-qualifier{color:#555}.cm-s-default .cm-builtin{color:#30a}.cm-s-default .cm-bracket{color:#997}.cm-s-default .cm-tag{color:#170}.cm-s-default .cm-attribute{color:#00c}.cm-s-default .cm-hr{color:#999}.cm-s-default .cm-link{color:#00c}.cm-s-default .cm-error{color:red}.cm-invalidchar{color:red}.CodeMirror-composing{border-bottom:2px solid}div.CodeMirror span.CodeMirror-matchingbracket{color:#0b0}div.CodeMirror span.CodeMirror-nonmatchingbracket{color:#a22}.CodeMirror-matchingtag{background:rgba(255,150,0,.3)}.CodeMirror-activeline-background{background:#e8f2ff}.CodeMirror{position:relative;overflow:hidden;background:#fff}.CodeMirror-scroll{overflow:scroll!important;margin-bottom:-50px;margin-right:-50px;padding-bottom:50px;height:100%;outline:0;position:relative;z-index:0}.CodeMirror-sizer{position:relative;border-right:50px solid transparent}.CodeMirror-gutter-filler,.CodeMirror-hscrollbar,.CodeMirror-scrollbar-filler,.CodeMirror-vscrollbar{position:absolute;z-index:6;display:none;outline:0}.CodeMirror-vscrollbar{right:0;top:0;overflow-x:hidden;overflow-y:scroll}.CodeMirror-hscrollbar{bottom:0;left:0;overflow-y:hidden;overflow-x:scroll}.CodeMirror-scrollbar-filler{right:0;bottom:0}.CodeMirror-gutter-filler{left:0;bottom:0}.CodeMirror-gutters{position:absolute;left:0;top:0;min-height:100%;z-index:3}.CodeMirror-gutter{white-space:normal;height:100%;display:inline-block;vertical-align:top;margin-bottom:-50px}.CodeMirror-gutter-wrapper{position:absolute;z-index:4;background:0 0!important;border:none!important}.CodeMirror-gutter-background{position:absolute;top:0;bottom:0;z-index:4}.CodeMirror-gutter-elt{position:absolute;cursor:default;z-index:4}.CodeMirror-gutter-wrapper ::selection{background-color:transparent}.CodeMirror-gutter-wrapper ::-moz-selection{background-color:transparent}.CodeMirror-lines{cursor:text;min-height:1px}.CodeMirror pre.CodeMirror-line,.CodeMirror pre.CodeMirror-line-like{-moz-border-radius:0;-webkit-border-radius:0;border-radius:0;border-width:0;background:0 0;font-family:inherit;font-size:inherit;margin:0;white-space:pre;word-wrap:normal;line-height:inherit;color:inherit;z-index:2;position:relative;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-font-variant-ligatures:contextual;font-variant-ligatures:contextual}.CodeMirror-wrap pre.CodeMirror-line,.CodeMirror-wrap pre.CodeMirror-line-like{word-wrap:break-word;white-space:pre-wrap;word-break:normal}.CodeMirror-linebackground{position:absolute;left:0;right:0;top:0;bottom:0;z-index:0}.CodeMirror-linewidget{position:relative;z-index:2;padding:.1px}.CodeMirror-rtl pre{direction:rtl}.CodeMirror-code{outline:0}.CodeMirror-gutter,.CodeMirror-gutters,.CodeMirror-linenumber,.CodeMirror-scroll,.CodeMirror-sizer{-moz-box-sizing:content-box;box-sizing:content-box}.CodeMirror-measure{position:absolute;width:100%;height:0;overflow:hidden;visibility:hidden}.CodeMirror-cursor{position:absolute;pointer-events:none}.CodeMirror-measure pre{position:static}div.CodeMirror-cursors{visibility:hidden;position:relative;z-index:3}div.CodeMirror-dragcursors{visibility:visible}.CodeMirror-focused div.CodeMirror-cursors{visibility:visible}.CodeMirror-selected{background:#d9d9d9}.CodeMirror-focused .CodeMirror-selected{background:#d7d4f0}.CodeMirror-crosshair{cursor:crosshair}.CodeMirror-line::selection,.CodeMirror-line>span::selection,.CodeMirror-line>span>span::selection{background:#d7d4f0}.CodeMirror-line::-moz-selection,.CodeMirror-line>span::-moz-selection,.CodeMirror-line>span>span::-moz-selection{background:#d7d4f0}.cm-searching{background-color:#ffa;background-color:rgba(255,255,0,.4)}.cm-force-border{padding-right:.1px}@media print{.CodeMirror div.CodeMirror-cursors{visibility:hidden}}.cm-tab-wrap-hack:after{content:''}span.CodeMirror-selectedtext{background:0 0}
+/* layout: 左にコード、右にスペクトログラムと操作盤。暗い作業台の一枚もの（意図的にダークのみ） */
+:root {
+  --bg: #0c0e13;
+  --panel: #11141b;
+  --raised: #181c26;
+  --line: #262b38;
+  --fg: #dde1ea;
+  --muted: #8a91a3;
+  --faint: #4b5266;
+  --accent: #f2a33a;
+  --phase: #7cc4ff;
+  --danger: #ff6b6b;
+  --ok: #8bd49a;
+  --font-ui: "IBM Plex Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+  --font-code: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 13px; }
+* { box-sizing: border-box; }
+button, select, input { font: inherit; color: inherit; }
+
+.app { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 10px; padding: 10px 16px 14px; }
+
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; min-width: 0; }
+.brand b { font-family: var(--font-code); font-weight: 600; font-size: 16px; letter-spacing: .04em; }
+.brand b i { font-style: normal; color: var(--accent); }
+.brand span { color: var(--muted); font-size: 12px; }
+.btn { background: var(--raised); border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+.btn:hover { border-color: var(--faint); }
+.btn:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #1a1205; font-weight: 600; }
+.btn.rec.on { background: var(--danger); border-color: var(--danger); color: #1b0606; font-weight: 600; }
+.status { font-family: var(--font-code); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.meter { width: 120px; height: 8px; border-radius: 4px; background: var(--raised); border: 1px solid var(--line); overflow: hidden; }
+.meter div { height: 100%; width: 0; background: var(--ok); transition: width .06s linear; }
+.meter.clip div { background: var(--danger); }
+
+main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 12px; min-height: 0; }
+.pane { min-height: 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.right { overflow-y: auto; padding-right: 2px; }
+
+.paneHead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.paneHead .hint { color: var(--faint); font-family: var(--font-code); font-size: 11px; margin-left: auto; }
+select, input[type=number] { background: var(--raised); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; min-width: 0; }
+label.chk { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); cursor: pointer; }
+input[type=checkbox], input[type=range] { accent-color: var(--accent); }
+
+.editor { flex: 1 1 auto; min-height: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
+.editor textarea.fallback { width: 100%; height: 100%; resize: none; border: 0; background: var(--panel); color: var(--fg); font-family: var(--font-code); font-size: 13px; line-height: 1.55; padding: 8px 12px; tab-size: 4; }
+.log { margin: 0; flex: 0 0 auto; max-height: 26%; overflow: auto; font-family: var(--font-code); font-size: 12px; line-height: 1.5; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ok); white-space: pre-wrap; }
+.log.err { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, var(--line)); cursor: pointer; }
+
+.view { position: relative; flex: 0 0 auto; height: clamp(240px, 46vh, 560px); border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: var(--bg); }
+.view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+.axis { position: absolute; inset: 0; pointer-events: none; }
+.axis div { position: absolute; left: 0; right: 0; border-top: 1px solid rgba(221, 225, 234, .07); }
+.axis span { position: absolute; left: 6px; top: -8px; font-family: var(--font-code); font-size: 10px; color: rgba(221, 225, 234, .55); }
+.chip { position: absolute; right: 8px; top: 8px; font-family: var(--font-code); font-size: 11px; padding: 3px 8px; border-radius: 999px; background: rgba(12, 14, 19, .72); border: 1px solid var(--line); color: var(--muted); pointer-events: none; }
+.chip.live { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
+.timeLabel { position: absolute; right: 8px; bottom: 6px; font-family: var(--font-code); font-size: 10px; color: rgba(221, 225, 234, .45); pointer-events: none; }
+.fatal { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; text-align: center; color: var(--danger); }
+
+.controls { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.ctl { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ctl > span { color: var(--muted); font-size: 11px; letter-spacing: .03em; display: flex; justify-content: space-between; gap: 6px; }
+.ctl > span em { font-style: normal; font-family: var(--font-code); color: var(--fg); font-variant-numeric: tabular-nums; }
+.ctl input[type=number], .ctl select { width: 100%; font-family: var(--font-code); font-size: 12px; }
+.ctl input[type=range] { width: 100%; }
+
+.ref { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 4px 12px 12px; }
+.ref summary { cursor: pointer; color: var(--muted); padding: 6px 0; font-size: 12px; }
+.ref h3 { margin: 12px 0 6px; font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .08em; }
+.ref p { margin: 6px 0; line-height: 1.65; color: var(--fg); max-width: 68ch; }
+.ref dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 0; }
+.ref dt { font-family: var(--font-code); font-size: 12px; color: var(--accent); white-space: nowrap; }
+.ref dt.fn { color: var(--phase); }
+.ref dd { margin: 0; line-height: 1.55; color: var(--fg); min-width: 0; }
+.ref code { font-family: var(--font-code); font-size: 12px; color: var(--accent); }
+.formula { font-family: var(--font-code); font-size: 12px; background: var(--raised); border-radius: 6px; padding: 8px 10px; overflow-x: auto; white-space: nowrap; }
+
+/* CodeMirror の配色 */
+.CodeMirror { font-variant-ligatures: none; height: 100%; background: var(--panel); color: var(--fg); font-family: var(--font-code); font-size: 13px; line-height: 1.55; }
+.CodeMirror-gutters { background: var(--panel); border-right: 1px solid var(--line); }
+.CodeMirror-linenumber { color: var(--faint); }
+.CodeMirror-cursor { border-left: 2px solid var(--accent); }
+.CodeMirror-selected, .CodeMirror-focused .CodeMirror-selected, .CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: rgba(242, 163, 58, .2); }
+.CodeMirror-matchingbracket { color: #fff !important; outline: 1px solid var(--faint); }
+.cm-s-default .cm-keyword { color: #ff8fa3; }
+.cm-s-default .cm-type, .cm-s-default .cm-variable-3 { color: var(--phase); }
+.cm-s-default .cm-number { color: var(--accent); }
+.cm-s-default .cm-comment { color: #69728a; }
+.cm-s-default .cm-builtin { color: #c3a6ff; }
+.cm-s-default .cm-meta { color: #c3a6ff; }
+.cm-s-default .cm-def { color: #ffd28a; }
+.cm-s-default .cm-variable, .cm-s-default .cm-variable-2, .cm-s-default .cm-property, .cm-s-default .cm-operator { color: var(--fg); }
+.cm-s-default .cm-atom { color: var(--accent); }
+.cm-errline { background: rgba(255, 107, 107, .14); }
+
+@media (max-width: 960px) {
+  .app { height: auto; grid-template-rows: auto auto; }
+  main { grid-template-columns: minmax(0, 1fr); }
+  .left .editor { height: 56vh; flex: 0 0 auto; }
+  .right { overflow: visible; }
+  .view { height: 40vh; min-height: 220px; }
+  .meter { width: 80px; }
+}
+@media (prefers-reduced-motion: reduce) { .meter div { transition: none; } }
+</style>
+
+<div class="app">
+  <header class="bar">
+    <div class="brand"><b>Spec<i>Shader</i></b><span>GLSL で描いたスペクトログラムがそのまま鳴る</span></div>
+    <button class="btn primary" id="play" type="button">▶ 再生</button>
+    <button class="btn" id="rewind" type="button" title="time を 0 に戻す">⏮ 0秒へ</button>
+    <button class="btn rec" id="rec" type="button">● 録音</button>
+    <div class="meter" id="meter" title="出力レベル"><div id="meterFill"></div></div>
+    <div class="status" id="status">準備中…</div>
+  </header>
+
+  <main>
+    <section class="pane left">
+      <div class="paneHead">
+        <select id="example" aria-label="サンプル"></select>
+        <label class="chk"><input type="checkbox" id="auto" checked> 書くそばから反映</label>
+        <span class="hint">⌘/Ctrl+Enter で反映</span>
+      </div>
+      <div class="editor" id="editorHost"></div>
+      <pre class="log" id="log">コンパイル待ち…</pre>
+    </section>
+
+    <section class="pane right">
+      <div class="view" id="view">
+        <canvas id="gl"></canvas>
+        <div class="axis" id="axis"></div>
+        <div class="chip" id="chip">プレビュー（無音）</div>
+        <div class="timeLabel" id="timeLabel"></div>
+      </div>
+
+      <div class="controls">
+        <label class="ctl"><span>行数（縦の高さ）</span><input type="number" id="rows" min="16" max="2048" step="1"></label>
+        <label class="ctl"><span>フレームレート <em id="wLabel"></em></span><input type="number" id="fps" min="10" max="480" step="1"></label>
+        <label class="ctl"><span>縦軸</span><select id="scale"><option value="log">対数（音程が等間隔）</option><option value="lin">線形（Hz が等間隔）</option></select></label>
+        <label class="ctl"><span>最低周波数 Hz</span><input type="number" id="fmin" min="1" max="20000" step="any"></label>
+        <label class="ctl"><span>最高周波数 Hz</span><input type="number" id="fmax" min="20" max="24000" step="any"></label>
+        <label class="ctl"><span>BPM</span><input type="number" id="bpm" min="20" max="400" step="any"></label>
+        <label class="ctl"><span>音量 <em id="gainLabel"></em></span><input type="range" id="gain" min="-48" max="12" step="0.5"></label>
+        <label class="ctl"><span>先読み <em id="latLabel"></em></span><input type="range" id="latency" min="30" max="300" step="5"></label>
+        <label class="ctl"><span>表示</span><select id="layout"><option value="score">楽譜（先に全体を描く）</option><option value="scroll">流れる（ライブ）</option></select></label>
+        <label class="ctl"><span>表示の幅 <em id="spanLabel"></em></span><select id="span">
+          <option value="b1">1小節</option><option value="b2">2小節</option><option value="b4">4小節</option><option value="b8">8小節</option>
+          <option value="s4">4秒</option><option value="s8">8秒</option><option value="s16">16秒</option>
+        </select></label>
+        <label class="ctl"><span>色</span><select id="viewMode"><option value="amp">振幅だけ</option><option value="phase">振幅＋位相（色相）</option></select></label>
+        <label class="ctl"><span>出力</span><label class="chk"><input type="checkbox" id="limit"> ソフトクリップ</label></label>
+        <div class="ctl"><span>縦軸のプリセット</span><button class="btn" id="gridPreset" type="button">C1–C10・1行25セント</button></div>
+      </div>
+
+      <details class="ref" open>
+        <summary>リファレンス</summary>
+        <p>シェーダーは毎フレーム、横 <code>resolution.x</code> = サンプルレート ÷ フレームレート、縦 <code>resolution.y</code> = 行数 の画像を描きます。1ピクセルは「1サンプル × 1本のサイン波」です。各行は自分の周波数で回り続けるサイン波で、R がその瞬間の振幅、G がそこに足す位相（1.0 で1周）です。フレームを横に並べたものが、そのまま1本のスペクトログラムになります。</p>
+        <p>表示が「楽譜」のときは、書き換えるたびにページ全体（1周分）を先に描いて音を作り、バーがそれを読んでループ再生します。つなぎ目は 20ms のクロスフェードでつなぎます。「流れる（ライブ）」では、鳴らしながら描き続けます。</p>
+        <div class="formula">out[n] = Σ<sub>行</sub> R(n, 行) · sin(2π · (hz<sub>行</sub> · n / sampleRate + G(n, 行)))</div>
+
+        <h3>ピクセルごとの入力</h3>
+        <dl>
+          <dt>t</dt><dd>このピクセルの時刻（秒）。楽譜表示ではページの頭が 0</dd>
+          <dt>pos</dt><dd>このピクセルが画面のどこに描かれるか（0〜1）。絵を描くときはこれを座標にすると楽</dd>
+          <dt>tl</dt><dd>フレーム先頭からの秒（フレーム内なので精度が高い）</dd>
+          <dt>bt</dt><dd>このピクセルの拍。64拍で0に戻るかわりに精度が落ちない。fract(bt) で拍頭からの位置</dd>
+          <dt>hz</dt><dd>この行の周波数（Hz）</dd>
+          <dt>row</dt><dd>行番号（0 が一番下）</dd>
+          <dt>uv</dt><dd>gl_FragCoord.xy / resolution</dd>
+        </dl>
+
+        <h3>uniform</h3>
+        <dl>
+          <dt>time</dt><dd>フレーム先頭の時刻（秒）</dd>
+          <dt>resolution</dt><dd>(1フレームのサンプル数, 行数)</dd>
+          <dt>frame</dt><dd>フレーム番号（int）</dd>
+          <dt>sampleRate</dt><dd>サンプルレート</dd>
+          <dt>frameRate</dt><dd>実際のフレームレート（sampleRate / resolution.x）</dd>
+          <dt>bpm / beat</dt><dd>BPM と、フレーム先頭の拍数（ピクセルごとの拍は t * bpm / 60.0）</dd>
+          <dt>mouse</dt><dd>右のビュー上のマウス位置（0〜1、下が 0）</dd>
+          <dt>backbuffer</dt><dd>1フレーム前の出力画像（sampler2D）</dd>
+          <dt>pageLength</dt><dd>1ページの長さ（秒）</dd>
+          <dt>fMin / fMax / logScale</dt><dd>縦軸の設定</dd>
+        </dl>
+
+        <h3>関数</h3>
+        <dl>
+          <dt class="fn">tone(f, amp)</dt><dd>周波数 f のサイン波を、その高さの行に置く（vec2 を返す）。行と行の間でも位相で補正するので音程は正確</dd>
+          <dt class="fn">sweep(f, cycles, amp)</dt><dd>周波数が動く音。cycles にはその音の位相の積分（何周したか）を渡す</dd>
+          <dt class="fn">phase(f)</dt><dd>時刻 t での周波数 f の位相（周）。f * t と同じ値を、時間が経っても精度を落とさずに出す。sin(TAU * phase(f)) で正確な LFO・変調波になる</dd>
+          <dt class="fn">rg(sum)</dt><dd>tone / sweep を足した vec2 を、R = 振幅・G = 位相の vec4 にする</dd>
+          <dt class="fn">midiHz(n) / hzMidi(f)</dt><dd>MIDI ノート番号と Hz の変換</dd>
+          <dt class="fn">rowHz(y) / hzY(f)</dt><dd>gl_FragCoord.y と Hz の変換</dd>
+          <dt class="fn">rowPhase()</dt><dd>このピクセルでのこの行のサイン波の位相（周）</dd>
+          <dt class="fn">hash(x) / hash(vec2)</dt><dd>0〜1 の乱数</dd>
+          <dt class="fn">TAU</dt><dd>2π</dd>
+        </dl>
+        <p style="color:var(--muted)">KodeLife 風に <code>uniform float time;</code> や <code>out vec4 fragColor;</code> を書いても、こちらで重複を取り除くのでそのまま通ります。GPU の float は32bitなので、t そのものから位相を作る（sin(TAU * f * t) など）と、数十秒でノイズが混ざり始めます。音の位相に関わる計算は phase(f) や bt、イベント頭からの経過時間を使ってください。tone と phase は1時間ほどまで精度を保ちます。</p>
+      </details>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/comment/comment.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = (s) => document.querySelector(s);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+};
+
+/* ------------------------------------------------------------------ */
+/* サンプル                                                            */
+/* ------------------------------------------------------------------ */
+const EXAMPLES = [
+{ id: 'welcome', name: 'はじめの一枚（コード進行）', code:
+`// SpecShader
+// このシェーダーは毎フレーム「横 = 時間 / 縦 = 周波数」の画像を描きます。
+// 1ピクセル = 1サンプル × 1本のサイン波。描いた画像がそのまま音になります。
+//
+//   fragColor.r = 振幅
+//   fragColor.g = 位相（1.0 で1周）
+//
+// 使える変数と関数は右下のリファレンスにあります。
+
+float env(float x, float k) { return x < 0.0 ? 0.0 : exp(-x * k); }
+
+void main() {
+    float b   = bt;                        // いま何拍目か（64拍で一周）
+    int   c   = int(mod(floor(b / 4.0), 4.0));
+
+    // コード進行 Am - F - C - G（ルートの MIDI ノート番号）
+    float root  = c == 0 ? 57.0 : c == 1 ? 53.0 : c == 2 ? 60.0 : 55.0;
+    float third = c == 0 ? 3.0 : 4.0;
+
+    vec2 sum = vec2(0.0);                  // 振幅と位相は複素数で足していく
+
+    // パッド：ルートの倍音を少しずつ弱く
+    for (int k = 1; k <= 8; k++) {
+        sum += tone(midiHz(root - 12.0) * float(k), 0.12 / float(k));
+    }
+
+    // アルペジオ：16分音符
+    int   i  = int(mod(floor(b * 4.0), 4.0));
+    float n  = root + 12.0 + (i == 0 ? 0.0 : i == 1 ? third : i == 2 ? 7.0 : 12.0);
+    float ea = env(fract(b * 4.0), 5.0);
+    for (int k = 1; k <= 5; k++) {
+        sum += tone(midiHz(n) * float(k), 0.25 * ea / float(k * k));
+    }
+
+    // キック：周波数が落ちていく線。動く音は位相（周波数の積分）を自分で渡す
+    float kt = fract(b) * 60.0 / bpm;      // 拍頭からの秒
+    float kf = 45.0 + 110.0 * exp(-kt * 28.0);
+    float kc = 45.0 * kt + 110.0 * (1.0 - exp(-kt * 28.0)) / 28.0;
+    sum += sweep(kf, kc, 0.9 * env(kt, 7.0));
+
+    fragColor = rg(sum);
+
+    // ハイハット：裏拍で高域にノイズを撒く（R と G を直接いじる例）
+    float ht   = fract(b + 0.5) * 60.0 / bpm;
+    float band = smoothstep(6000.0, 9000.0, hz);
+    float nz   = hash(vec2(row, floor(t * sampleRate / 8.0)));
+    fragColor.r += band * nz * 0.04 * env(ht, 40.0);
+    fragColor.g += band > 0.0 ? hash(row) : 0.0;
+}
+` },
+{ id: 'draw', name: 'お絵描き（R だけ使う）', code:
+`// 位相は気にせず、R に絵を描くだけ。
+// 時間 × 周波数 の平面に図形を置くと、その形のまま音になります。
+
+float ring(vec2 p, vec2 c, float r, float w) {
+    return smoothstep(w, 0.0, abs(length(p - c) - r));
+}
+
+void main() {
+    // pos は「このピクセルが画面のどこに描かれるか」（0〜1）。横を2倍して縦横比を合わせる
+    vec2 p = pos * vec2(2.0, 1.0);
+    float w = 0.012;
+
+    float a = 0.0;
+    a += ring(p, vec2(1.0, 0.5), 0.32, w);                   // 顔
+    a += ring(p, vec2(0.87, 0.62), 0.045, w);                // 目
+    a += ring(p, vec2(1.13, 0.62), 0.045, w);
+    a += ring(p, vec2(1.0, 0.5), 0.18, w) * step(p.y, 0.45); // 口
+
+    fragColor = vec4(a * 0.06, 0.0, 0.0, 1.0);
+}
+` },
+{ id: 'shepard', name: 'シェパード・トーン', code:
+`// 終わらない上昇音。各オクターブに1本ずつ線を引き、1ページで1オクターブ上へずらす。
+// G は 0 のまま。線が行から行へ移っていくぶん、少しざらついた質感になります。
+
+void main() {
+    float oct  = hzMidi(hz) / 12.0;              // この行の高さ（オクターブ単位）
+    float ph   = fract(oct - pos.x);             // ページの頭から終わりまでで1オクターブ上昇
+    float d    = min(ph, 1.0 - ph) * 12.0;       // 一番近い線までの距離（半音）
+    float line = exp(-d * d / 0.09);
+    float bell = exp(-pow((oct - 5.5) / 1.6, 2.0));   // 中域を強く、両端を弱く
+    fragColor = vec4(line * bell * 0.35, 0.0, 0.0, 1.0);
+}
+` },
+{ id: 'pm', name: '位相で遊ぶ（PM）', code:
+`// G（位相）を時間で揺らすと位相変調、いわゆる FM っぽい音になります。
+// ビューの上でマウスを動かしてください。横 = 深さ、縦 = 変調の速さ。
+
+void main() {
+    float f     = midiHz(45.0);                     // A1
+    float depth = mouse.x * 3.0;                    // 位相の振れ幅（周）
+    float rate  = f * floor(1.0 + mouse.y * 4.0);   // キャリアの整数倍
+
+    vec2 sum = vec2(0.0);
+    for (int k = 1; k <= 6; k++) {
+        sum += tone(f * float(k), 0.3 / float(k));
+    }
+    fragColor = rg(sum);
+    fragColor.g += depth * sin(TAU * phase(rate));  // ここが位相変調
+}
+` },
+{ id: 'rain', name: '雨と残響（backbuffer）', code:
+`// backbuffer には1フレーム前の画像が入っています。
+// 前のフレームの右端（最後のサンプル）を読んで減衰させながら引き継ぐと、
+// 鳴った音がしばらく残る「スペクトルの残響」になります。
+
+void main() {
+    float last = texelFetch(backbuffer, ivec2(int(resolution.x) - 1, int(row)), 0).r;
+    float tail = last * exp(-tl * 2.5);
+
+    // 雨粒：ランダムな行に、ランダムな時刻で短い粒を落とす
+    float slot = floor(t * 24.0);
+    float hit  = step(0.996, hash(vec2(row, slot)));
+    float drop = hit * exp(-fract(t * 24.0) * 6.0) * 0.3;
+
+    float band = smoothstep(200.0, 600.0, hz) * (1.0 - smoothstep(3000.0, 9000.0, hz));
+    fragColor  = vec4(max(tail, drop * band), 0.0, 0.0, 1.0);
+}
+` },
+{ id: 'flow', name: '画像風：流れる線の束', code:
+`// 流れる線の束（2・4・8枚目の系統）
+// 等間隔の横縞を、なめらかなノイズで歪ませた座標の上に引く。
+
+float noise(vec2 p) {                        // なめらかな乱数（値ノイズ）
+    vec2 i = floor(p), f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i), b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0)), d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+void main() {
+    vec2 p = pos;
+
+    // 1. 座標そのものをノイズで歪ませる（ドメインワープ）。
+    //    縦だけでなく横（時間）にもずらすと、線が渦を巻いて折り返す
+    vec2 q = p;
+    q += 0.36 * (vec2(noise(p * vec2(4.0, 3.0) + 1.7), noise(p * vec2(4.0, 3.0) + 8.3)) - 0.5);
+    q += 0.16 * (vec2(noise(q * vec2(9.0, 7.0) + 4.1), noise(q * vec2(9.0, 7.0) + 2.9)) - 0.5);
+    float y = q.y;
+
+    // 2. ずらした座標に等間隔の横縞を引く（pow で細い線にする）
+    float line = pow(0.5 + 0.5 * cos(TAU * y * 45.0), 10.0);
+
+    // 3. 束の上下の範囲
+    float band = smoothstep(0.15, 0.3, y) * (1.0 - smoothstep(0.55, 0.85, y));
+
+    // 4. 拍ごとに強く出て、ゆっくり引く
+    float e = 0.35 + 0.65 * exp(-fract(bt / 2.0) * 3.0);
+
+    fragColor = vec4(line * band * e * 0.1, 0.0, 0.0, 1.0);
+
+    // 5. 2拍ごとに全帯域の縦線（クリック）
+    float tc = fract(bt / 2.0) * 120.0 / bpm;
+    fragColor.r += exp(-tc * 600.0) * 0.05;
+}
+` },
+{ id: 'chevron', name: '画像風：V字の並び', code:
+`// V の字・山形の並び（1・3枚目の系統）
+// ジグザグの線を少しずつずらして何本も重ね、段ごとに半拍単位で出し入れする。
+
+float tri(float x) { return abs(fract(x) - 0.5) * 2.0; }   // 0〜1 の三角波
+
+void main() {
+    float a = 0.0;
+    for (int k = 0; k < 6; k++) {
+        float fk   = float(k);
+        float base = 0.30 + fk * 0.1;                        // 段ごとの高さ
+        float zig  = 0.035 * tri(pos.x * (10.0 + fk * 4.0)); // ジグザグ
+        float ak = 0.0;
+        for (int j = 0; j < 5; j++) {                        // 同じ形を5本ずらして束にする
+            float d = abs(pos.y - (base + zig + float(j) * 0.007));
+            ak += smoothstep(0.003, 0.0, d) * (1.0 - float(j) * 0.15);
+        }
+        float gate = step(0.4, hash(vec2(fk, floor(bt * 2.0))));  // この段をこの半拍で鳴らすか
+        a += ak * gate;
+    }
+    fragColor = vec4(a * 0.08, 0.0, 0.0, 1.0);
+}
+` },
+{ id: 'lattice', name: '画像風：網目', code:
+`// 網目（5枚目の系統）
+// ノイズで塗った面から、右上がりと右下がりの斜線を暗く抜いて網にする。上の縁は山なり、ところどころ丸い穴。
+
+void main() {
+    // 塗りつぶし用のノイズ（サンプルごとに変わる乱数＝ザーッという音）
+    float fill = hash(vec2(row, floor(t * sampleRate / 2.0)));
+
+    // 2方向の斜線
+    float s1 = pow(0.5 + 0.5 * cos(TAU * (pos.y * 18.0 + pos.x * 14.0)), 12.0);
+    float s2 = pow(0.5 + 0.5 * cos(TAU * (pos.y * 18.0 - pos.x * 14.0)), 12.0);
+    float net = max(s1, s2);
+
+    // 上の縁：1ページに3つの山
+    float top = 0.35 + 0.55 * pow(sin(3.14159 * fract(pos.x * 3.0)), 2.0);
+    float mask = 1.0 - smoothstep(top - 0.05, top, pos.y);
+
+    // 丸い穴
+    vec2 c = vec2(fract(pos.x * 3.0) - 0.75, (pos.y - 0.4) / 3.0 * 2.0);
+    float hole = smoothstep(0.06, 0.08, length(c));
+
+    float a = fill * (1.0 - 0.95 * net) * mask * hole;
+    fragColor = vec4(a * 0.03, 0.0, 0.0, 1.0);
+}
+` },
+{ id: 'glyph', name: '画像風：記号の列', code:
+`// 記号の列（6枚目の系統）
+// マス目ごとに乱数で ─ │ ╱ ╲ のどれかを描き、それを山なりの道筋に沿って並べる。
+
+void main() {
+    float path = 0.25 + 0.45 * (1.0 - abs(pos.x - 0.5) * 2.0);   // 中央で一番高い山なり
+    vec2 g  = vec2(pos.x * 90.0, (pos.y - path) * 60.0);
+    vec2 id = floor(g), f = fract(g) - 0.5;
+
+    float r = hash(id + vec2(7.0, 3.0));
+    float d = r < 0.25 ? abs(f.y)                            // ─
+            : r < 0.5  ? abs(f.x)                            // │
+            : r < 0.75 ? abs(f.x - f.y) * 0.7071             // ╱
+            :            abs(f.x + f.y) * 0.7071;            // ╲
+    float stroke = smoothstep(0.1, 0.0, d);
+    float on = step(0.3, hash(id + vec2(31.0, 17.0)));      // 空白のマスも混ぜる
+    float inBand = 1.0 - smoothstep(0.06, 0.12, abs(pos.y - path));
+
+    fragColor = vec4(stroke * on * inBand * 0.1, 0.0, 0.0, 1.0);
+}
+` },
+];
+
+/* ------------------------------------------------------------------ */
+/* 設定                                                                */
+/* ------------------------------------------------------------------ */
+const midiHz = (m) => 440 * Math.pow(2, (m - 69) / 12);
+const DEFAULTS = { rows: 433, fps: 60, scale: 'log', fmin: +midiHz(24).toFixed(3), fmax: +midiHz(132).toFixed(2),
+  bpm: 140, gain: -6, latency: 80, layout: 'score', span: 'b4', viewMode: 'amp', limit: true };
+const S = Object.assign({}, DEFAULTS);
+try { Object.assign(S, JSON.parse(store.get('specshader.settings') || '{}')); } catch (e) {}
+if (S.layout !== 'scroll') S.layout = 'score';
+const saveSettings = () => store.set('specshader.settings', JSON.stringify(S));
+
+/* ------------------------------------------------------------------ */
+/* WebGL                                                               */
+/* ------------------------------------------------------------------ */
+const canvas = $('#gl');
+const gl = canvas.getContext('webgl2', { antialias: false, alpha: false, preserveDrawingBuffer: true });
+function fatal(msg) {
+  const d = document.createElement('div'); d.className = 'fatal'; d.textContent = msg; $('#view').appendChild(d);
+}
+if (!gl) { fatal('このブラウザでは WebGL2 が使えません。Chrome / Edge / Firefox / Safari の新しい版で開いてください。'); return; }
+if (!gl.getExtension('EXT_color_buffer_float')) { fatal('このブラウザ・GPU は浮動小数点テクスチャへの描画（EXT_color_buffer_float）に対応していません。'); return; }
+
+const VS = `#version 300 es
+void main() { vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2)); gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0); }`;
+
+const PRELUDE = `#version 300 es
+precision highp float;
+precision highp int;
+precision highp sampler2D;
+uniform float time;
+uniform vec2  resolution;
+uniform int   frame;
+uniform float sampleRate;
+uniform float frameRate;
+uniform float bpm;
+uniform float beat;
+uniform vec2  mouse;
+uniform float fMin;
+uniform float fMax;
+uniform int   logScale;
+uniform sampler2D backbuffer;
+uniform sampler2D _ss_rows;
+uniform float _ss_tInt;
+uniform float _ss_tFrac;
+uniform float _ss_beat64;
+uniform float pageLength;
+out vec4 fragColor;
+float t; float tl; float bt; float hz; float row; vec2 uv; vec2 pos;
+const float TAU = 6.283185307179586;
+float rowHz(float y) { float n = clamp((y - 0.5) / max(resolution.y - 1.0, 1.0), 0.0, 1.0); return logScale == 1 ? fMin * pow(fMax / fMin, n) : mix(fMin, fMax, n); }
+float hzY(float f) { float n = logScale == 1 ? log(max(f, 1e-6) / fMin) / log(fMax / fMin) : (f - fMin) / (fMax - fMin); return n * (resolution.y - 1.0) + 0.5; }
+float midiHz(float m) { return 440.0 * exp2((m - 69.0) / 12.0); }
+float hzMidi(float f) { return 69.0 + 12.0 * log2(max(f, 1e-6) / 440.0); }
+float rowPhase() { return fract(texelFetch(_ss_rows, ivec2(int(row), 0), 0).y + hz * tl); }
+uint _ss_pcg(uint v) { uint s = v * 747796405u + 2891336453u; uint w = ((s >> ((s >> 28u) + 4u)) ^ s) * 277803737u; return (w >> 22u) ^ w; }
+float hash(float x) { return float(_ss_pcg(uint(int(floor(x))))) / 4294967295.0; }
+float hash(vec2 p) { return float(_ss_pcg(_ss_pcg(uint(int(floor(p.x)))) + uint(int(floor(p.y))))) / 4294967295.0; }
+vec2 _ss_partial(float f, float amp, float ph) {
+  float d = gl_FragCoord.y - hzY(f);
+  float g = exp(-d * d / 0.7225) / 1.50662;
+  if (!(f > 0.0) || f >= sampleRate * 0.5) g = 0.0;
+  float a = TAU * ph;
+  return amp * g * vec2(cos(a), sin(a));
+}
+float _ss_mulFract(float a, float n) {
+  if (a == 0.0) return 0.0;
+  float e = exp2(floor(log2(abs(a))) - 11.0);
+  float hi = floor(a / e) * e;
+  return fract(fract(hi * n) + (a - hi) * n);
+}
+float phase(float f) {
+  float y = clamp(floor(hzY(f)), 0.0, resolution.y - 1.0);
+  vec4 r = texelFetch(_ss_rows, ivec2(int(y), 0), 0);
+  float df = f - r.x;
+  return fract(fract(r.y + r.x * tl) + _ss_mulFract(df, _ss_tInt) + fract(df * (_ss_tFrac + tl)));
+}
+vec2 tone(float f, float amp) { return _ss_partial(f, amp, fract(phase(f) - rowPhase())); }
+vec2 sweep(float f, float cycles, float amp) { return _ss_partial(f, amp, fract(cycles - rowPhase())); }
+vec4 rg(vec2 c) { return vec4(length(c), atan(c.y, c.x) / TAU, 0.0, 1.0); }
+#define main _ss_user_main
+`;
+const EPILOGUE = `
+#undef main
+void main() {
+  tl = floor(gl_FragCoord.x) / sampleRate;
+  t = time + tl;
+  bt = _ss_beat64 + tl * bpm / 60.0;
+  row = floor(gl_FragCoord.y);
+  hz = texelFetch(_ss_rows, ivec2(int(row), 0), 0).x;
+  uv = gl_FragCoord.xy / resolution;
+  pos = vec2(fract(t / pageLength), uv.y);
+  fragColor = vec4(0.0);
+  _ss_user_main();
+}
+`;
+
+const SYNTH_FS = `#version 300 es
+precision highp float; precision highp int; precision highp sampler2D;
+uniform sampler2D spec; uniform sampler2D rows; uniform int H; uniform float sr;
+out vec4 o;
+void main() {
+  int x = int(gl_FragCoord.x);
+  float xs = float(x) / sr;
+  float s = 0.0;
+  for (int y = 0; y < H; y++) {
+    vec4 v = texelFetch(spec, ivec2(x, y), 0);
+    float a = v.r;
+    if (a == 0.0 || !(abs(a) < 1e4)) continue;
+    vec4 r = texelFetch(rows, ivec2(y, 0), 0);
+    float g = abs(v.g) < 1e6 ? v.g : 0.0;
+    s += a * sin(6.283185307179586 * fract(fract(r.y + r.x * xs) + g));
+  }
+  o = vec4(s, 0.0, 0.0, 1.0);
+}`;
+
+const HIST_FS = `#version 300 es
+precision highp float; precision highp int; precision highp sampler2D;
+uniform sampler2D cur; uniform sampler2D prev;
+uniform float rel0; uniform float spc; uniform int W; uniform int D; uniform int head0;
+out vec4 o;
+void main() {
+  int c = int(gl_FragCoord.x);
+  int y = int(gl_FragCoord.y);
+  int j = (c - head0 + D) % D;
+  float s0 = rel0 + float(j) * spc;
+  int i0 = max(int(floor(s0)), -W);
+  int i1 = min(int(ceil(s0 + spc)), W);
+  int st = max(1, (i1 - i0) / 96);
+  float best = -1.0; float ph = 0.0;
+  for (int i = i0; i < i1; i += st) {
+    vec2 v = i < 0 ? texelFetch(prev, ivec2(i + W, y), 0).rg : texelFetch(cur, ivec2(i, y), 0).rg;
+    float a = abs(v.r);
+    if (!(a < 1e6)) a = 0.0;
+    if (a > best) { best = a; ph = v.g; }
+  }
+  o = vec4(max(best, 0.0), ph, 0.0, 1.0);
+}`;
+
+const PRESENT_FS = `#version 300 es
+precision highp float; precision highp int; precision highp sampler2D;
+uniform sampler2D hist; uniform int D; uniform int head; uniform int H; uniform vec2 view; uniform int mode;
+uniform int page; uniform float playX; uniform float bars; uniform vec3 accent;
+out vec4 o;
+vec3 cmap(float k) {
+  vec3 c0 = vec3(0.047, 0.055, 0.075), c1 = vec3(0.20, 0.11, 0.33), c2 = vec3(0.74, 0.22, 0.36), c3 = vec3(0.95, 0.64, 0.23), c4 = vec3(1.0, 0.96, 0.86);
+  k = clamp(k, 0.0, 1.0) * 4.0;
+  if (k < 1.0) return mix(c0, c1, k);
+  if (k < 2.0) return mix(c1, c2, k - 1.0);
+  if (k < 3.0) return mix(c2, c3, k - 2.0);
+  return mix(c3, c4, k - 3.0);
+}
+vec3 hsv(vec3 c) { vec3 p = abs(fract(c.xxx + vec3(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0); return c.z * mix(vec3(1.0), clamp(p - 1.0, 0.0, 1.0), c.y); }
+void main() {
+  vec2 p = gl_FragCoord.xy / view;
+  int c = page == 1 ? min(int(p.x * float(D)), D - 1) : (head + int(p.x * float(D))) % D;
+  int y = clamp(int(p.y * float(H)), 0, H - 1);
+  vec2 v = texelFetch(hist, ivec2(c, y), 0).rg;
+  float db = 20.0 * log(max(v.r, 1e-7)) / log(10.0);
+  float k = clamp((db + 66.0) / 60.0, 0.0, 1.0);
+  vec3 col = mode == 0 ? cmap(k) : mix(vec3(0.047, 0.055, 0.075), hsv(vec3(fract(v.g), 0.62, 1.0)), pow(k, 1.3));
+  if (bars > 0.0) {
+    float pxBar = abs(fract(p.x * bars + 0.5) - 0.5) * view.x / bars;
+    float pxBeat = abs(fract(p.x * bars * 4.0 + 0.5) - 0.5) * view.x / (bars * 4.0);
+    col = mix(col, vec3(0.86, 0.88, 0.92), pxBar < 0.75 ? 0.16 : pxBeat < 0.75 ? 0.06 : 0.0);
+  }
+  if (playX >= 0.0) {
+    float d = abs(p.x - playX) * view.x;
+    col = mix(col, accent, clamp(1.6 - d, 0.0, 1.0));
+  }
+  o = vec4(col, 1.0);
+}`;
+
+function compileShader(type, src) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { const log = gl.getShaderInfoLog(s) || 'compile error'; gl.deleteShader(s); throw new Error(log); }
+  return s;
+}
+let vsObj = null;
+function makeProgram(fsSrc) {
+  if (!vsObj) vsObj = compileShader(gl.VERTEX_SHADER, VS);
+  const fs = compileShader(gl.FRAGMENT_SHADER, fsSrc);
+  const p = gl.createProgram();
+  gl.attachShader(p, vsObj); gl.attachShader(p, fs); gl.linkProgram(p);
+  gl.deleteShader(fs);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) { const log = gl.getProgramInfoLog(p); gl.deleteProgram(p); throw new Error(log || 'link error'); }
+  const u = {};
+  const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (let i = 0; i < n; i++) { const info = gl.getActiveUniform(p, i); u[info.name.replace(/\[0\]$/, '')] = gl.getUniformLocation(p, info.name); }
+  return { p, u };
+}
+
+let synthProg, histProg, presentProg;
+try { synthProg = makeProgram(SYNTH_FS); histProg = makeProgram(HIST_FS); presentProg = makeProgram(PRESENT_FS); }
+catch (e) { fatal('内部シェーダーの初期化に失敗しました: ' + e.message); return; }
+
+const vao = gl.createVertexArray();
+gl.bindVertexArray(vao);
+
+function makeTex(w, h, data) {
+  const tx = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tx);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, w, h, 0, gl.RGBA, gl.FLOAT, data || null);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return tx;
+}
+function makeFbo(tx) {
+  const f = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tx, 0);
+  gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+  return f;
+}
+function bindTex(unit, tx) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tx); }
+
+/* ------------------------------------------------------------------ */
+/* エンジンの状態                                                      */
+/* ------------------------------------------------------------------ */
+const D = 2048;                    // 表示の履歴の列数
+let sr = 48000, W = 800, H = 433, fMinA = S.fmin, fMaxA = S.fmax;
+let freqs = new Float64Array(0), rowsData = new Float32Array(0), readBuf = new Float32Array(0);
+let T = null;                      // テクスチャと FBO
+let cur = 0, n0 = 0, frameNo = 0;
+let histOrigin = 0, colsWritten = 0, spc = 1, histCap = Infinity;
+const isScore = () => S.layout !== 'scroll';
+let pageLen = 48000;               // 楽譜表示の1ページ（サンプル数）
+let pageBuf = null;                // 描き終わった1周分の音
+let job = null, jobPending = false, jobMs = 0;
+let userProg = null;
+let mouse = [0.5, 0.5];
+let gpuMs = 0;
+
+function hzYjs(f) {
+  const n = S.scale === 'log' ? Math.log(f / fMinA) / Math.log(fMaxA / fMinA) : (f - fMinA) / (fMaxA - fMinA);
+  return n * (H - 1) + 0.5;
+}
+
+function applyConfig() {
+  H = Math.max(16, Math.min(2048, Math.round(+S.rows || DEFAULTS.rows)));
+  const fps = Math.max(10, Math.min(480, +S.fps || 60));
+  W = Math.max(16, Math.round(sr / fps));
+  const nyq = sr / 2;
+  fMaxA = Math.min(Math.max(+S.fmax || DEFAULTS.fmax, 20), nyq * 0.995);
+  fMinA = Math.min(Math.max(+S.fmin || DEFAULTS.fmin, 1), fMaxA * 0.99);
+  freqs = new Float64Array(H);
+  for (let y = 0; y < H; y++) {
+    const n = H > 1 ? y / (H - 1) : 0;
+    const f = S.scale === 'log' ? fMinA * Math.pow(fMaxA / fMinA, n) : fMinA + (fMaxA - fMinA) * n;
+    freqs[y] = Math.fround(f);
+  }
+  rowsData = new Float32Array(H * 4);
+  readBuf = new Float32Array(W * 4);
+
+  if (T) {
+    for (const k of ['spec0', 'spec1', 'rows', 'audio', 'hist']) gl.deleteTexture(T[k]);
+    for (const k of ['fspec0', 'fspec1', 'faudio', 'fhist']) gl.deleteFramebuffer(T[k]);
+  }
+  T = {};
+  T.spec0 = makeTex(W, H); T.fspec0 = makeFbo(T.spec0);
+  T.spec1 = makeTex(W, H); T.fspec1 = makeFbo(T.spec1);
+  T.rows = makeTex(H, 1);
+  T.audio = makeTex(W, 1); T.faudio = makeFbo(T.audio);
+  T.hist = makeTex(D, H); T.fhist = makeFbo(T.hist);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  resetHistory();
+  $('#wLabel').textContent = `${W}×${H}`;
+  renderAxis();
+}
+
+function spanInfo() {
+  const v = String(S.span || 'b4'), n = parseFloat(v.slice(1)) || 4;
+  return v[0] === 'b' ? { bars: n, sec: n * 4 * 60 / S.bpm } : { bars: 0, sec: n };
+}
+// 列 A は [A*spc, (A+1)*spc) のサンプルを表す。固定表示では A mod D がそのまま画面の位置になるので、
+// time 0 からページ単位で揃う（小節指定なら小節頭がいつも左端に来る）
+function resetHistory() {
+  spc = Math.min(Math.max((isScore() ? pageLen : sr * spanInfo().sec) / D, 1), W);
+  histCap = isScore() ? D : Infinity;
+  histOrigin = 0; colsWritten = Math.floor(n0 / spc);
+  if (T) { gl.bindFramebuffer(gl.FRAMEBUFFER, T.fhist); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.bindFramebuffer(gl.FRAMEBUFFER, null); }
+}
+
+function renderAxis() {
+  const ax = $('#axis'); ax.textContent = '';
+  const marks = [];
+  if (S.scale === 'log') {
+    for (let oct = 0; oct <= 10; oct++) { const f = midiHz(12 * (oct + 1)); marks.push([f, 'C' + oct]); }
+  } else {
+    const span = fMaxA - fMinA;
+    const step = [100, 200, 500, 1000, 2000, 5000].find((s) => span / s <= 8) || 5000;
+    for (let f = Math.ceil(fMinA / step) * step; f <= fMaxA; f += step) marks.push([f, f >= 1000 ? (f / 1000) + 'k' : String(f)]);
+  }
+  for (const [f, label] of marks) {
+    if (f < fMinA || f > fMaxA) continue;
+    const pos = hzYjs(f) / H;
+    if (pos < 0.02 || pos > 0.98) continue;
+    const d = document.createElement('div');
+    d.style.bottom = (pos * 100).toFixed(2) + '%';
+    const s = document.createElement('span'); s.textContent = label; d.appendChild(s);
+    ax.appendChild(d);
+  }
+}
+
+/* ユーザーのシェーダー ------------------------------------------------ */
+const RESERVED = /^\s*uniform\s+\w+\s+(time|resolution|frame|sampleRate|frameRate|bpm|beat|mouse|fMin|fMax|logScale|backbuffer|pageLength)\s*;.*$/;
+function wrapUser(src) {
+  const lines = src.split('\n').map((l) => {
+    if (/^\s*#version\b/.test(l)) return '';
+    if (/^\s*out\s+(highp\s+|mediump\s+|lowp\s+)?vec4\s+fragColor\s*;/.test(l)) return '';
+    if (RESERVED.test(l)) return '';
+    return l;
+  });
+  return PRELUDE + '#line 1\n' + lines.join('\n') + EPILOGUE;
+}
+// #line の解釈がドライバごとに違うので、1行目にわざとエラーを置いて差を測る
+let lineOffset = 0;
+try { compileShader(gl.FRAGMENT_SHADER, wrapUser('@')); } catch (e) {
+  const m = /(?:ERROR|WARNING):\s*\d+:(\d+):/.exec(e.message);
+  if (m) lineOffset = (+m[1]) - 1;
+}
+
+/* 1フレーム描く ------------------------------------------------------ */
+function renderFrame() {
+  const t0 = performance.now();
+  // 各行の、このフレーム先頭での位相（倍精度で計算して渡す）
+  for (let y = 0; y < H; y++) {
+    const f = freqs[y];
+    const ph = (f * n0 / sr) % 1;
+    rowsData[y * 4] = f; rowsData[y * 4 + 1] = ph;
+  }
+  bindTex(0, T.rows);
+  gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, H, 1, gl.RGBA, gl.FLOAT, rowsData);
+
+  const prevTex = cur === 0 ? T.spec1 : T.spec0;
+  const curTex = cur === 0 ? T.spec0 : T.spec1;
+  const curFbo = cur === 0 ? T.fspec0 : T.fspec1;
+
+  // 1. ユーザーのシェーダー → スペクトル画像
+  gl.bindFramebuffer(gl.FRAMEBUFFER, curFbo);
+  gl.viewport(0, 0, W, H);
+  if (userProg) {
+    const { p, u } = userProg;
+    gl.useProgram(p);
+    bindTex(0, prevTex); bindTex(1, T.rows);
+    const time = n0 / sr;
+    if (u.backbuffer) gl.uniform1i(u.backbuffer, 0);
+    if (u._ss_rows) gl.uniform1i(u._ss_rows, 1);
+    if (u.time) gl.uniform1f(u.time, time);
+    if (u.resolution) gl.uniform2f(u.resolution, W, H);
+    if (u.frame) gl.uniform1i(u.frame, frameNo);
+    if (u.sampleRate) gl.uniform1f(u.sampleRate, sr);
+    if (u.frameRate) gl.uniform1f(u.frameRate, sr / W);
+    if (u.bpm) gl.uniform1f(u.bpm, S.bpm);
+    if (u.beat) gl.uniform1f(u.beat, time * S.bpm / 60);
+    if (u.mouse) gl.uniform2f(u.mouse, mouse[0], mouse[1]);
+    if (u.fMin) gl.uniform1f(u.fMin, fMinA);
+    if (u.fMax) gl.uniform1f(u.fMax, fMaxA);
+    if (u.logScale) gl.uniform1i(u.logScale, S.scale === 'log' ? 1 : 0);
+    const tInt = Math.floor(time);
+    if (u._ss_tInt) gl.uniform1f(u._ss_tInt, tInt);
+    if (u._ss_tFrac) gl.uniform1f(u._ss_tFrac, time - tInt);
+    if (u._ss_beat64) gl.uniform1f(u._ss_beat64, (time * S.bpm / 60) % 64);
+    if (u.pageLength) gl.uniform1f(u.pageLength, isScore() ? pageLen / sr : spanInfo().sec);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  } else {
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+  }
+
+  // 2. 加算合成 → 1行のオーディオ
+  gl.bindFramebuffer(gl.FRAMEBUFFER, T.faudio);
+  gl.viewport(0, 0, W, 1);
+  gl.useProgram(synthProg.p);
+  bindTex(0, curTex); bindTex(1, T.rows);
+  gl.uniform1i(synthProg.u.spec, 0); gl.uniform1i(synthProg.u.rows, 1);
+  gl.uniform1i(synthProg.u.H, H); gl.uniform1f(synthProg.u.sr, sr);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.readPixels(0, 0, W, 1, gl.RGBA, gl.FLOAT, readBuf);
+  const out = new Float32Array(W);
+  for (let i = 0; i < W; i++) out[i] = readBuf[i * 4];
+
+  // 3. 表示用の履歴に列を足す
+  const n1 = n0 + W;
+  let A0 = colsWritten;
+  const A1 = Math.min(histCap, Math.floor((n1 - histOrigin) / spc));
+  if (A1 > A0) {
+    if (A1 - A0 > D) A0 = A1 - D;
+    const k = A1 - A0, head0 = A0 % D;
+    gl.bindFramebuffer(gl.FRAMEBUFFER, T.fhist);
+    gl.viewport(0, 0, D, H);
+    gl.useProgram(histProg.p);
+    bindTex(0, curTex); bindTex(1, prevTex);
+    const u = histProg.u;
+    gl.uniform1i(u.cur, 0); gl.uniform1i(u.prev, 1);
+    gl.uniform1f(u.rel0, histOrigin + A0 * spc - n0);
+    gl.uniform1f(u.spc, spc); gl.uniform1i(u.W, W); gl.uniform1i(u.D, D); gl.uniform1i(u.head0, head0);
+    gl.enable(gl.SCISSOR_TEST);
+    const first = Math.min(k, D - head0);
+    gl.scissor(head0, 0, first, H); gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (k > first) { gl.scissor(0, 0, k - first, H); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    gl.disable(gl.SCISSOR_TEST);
+    colsWritten = A1;
+  }
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+  n0 = n1; frameNo++; cur ^= 1;
+  gpuMs = gpuMs * 0.9 + (performance.now() - t0) * 0.1;
+  return out;
+}
+
+/* 楽譜表示：ページ全体を先に描いて、1周分の音を作る -------------------- */
+function startJob() {
+  if (!T) return;
+  pageLen = Math.max(W, Math.round(spanInfo().sec * sr));
+  const xf = Math.min(Math.round(0.02 * sr), Math.floor(pageLen / 4));
+  n0 = 0; frameNo = 0; cur = 0;
+  resetHistory();
+  for (const f of [T.fspec0, T.fspec1]) { gl.bindFramebuffer(gl.FRAMEBUFFER, f); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); }
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  const total = pageLen + xf;
+  job = { total, xf, buf: new Float32Array(Math.ceil(total / W) * W), pos: 0, work: 0 };
+  jobPending = false;
+}
+function requestPage(immediate) {
+  if (!isScore()) return;
+  if (job && !immediate) { jobPending = true; return; }
+  startJob();
+}
+function workJob(budgetMs) {
+  if (!job) return;
+  const start = performance.now(), end = start + budgetMs;
+  while (job.pos < job.total) {
+    job.buf.set(renderFrame(), job.pos);
+    job.pos += W;
+    if (performance.now() > end) break;
+  }
+  job.work += performance.now() - start;
+  if (job.pos >= job.total) finishJob();
+}
+function finishJob() {
+  const { buf, xf } = job, L = pageLen;
+  const page = new Float32Array(L);
+  page.set(buf.subarray(0, L));
+  // ページの終わりの続き（L 以降）を頭に重ねて、ループの継ぎ目をつなぐ
+  for (let i = 0; i < xf; i++) { const w = 0.5 - 0.5 * Math.cos(Math.PI * i / xf); page[i] = page[i] * w + buf[L + i] * (1 - w); }
+  pageBuf = page;
+  jobMs = job.work;
+  job = null;
+  if (audio.ctx) audio.setLoop(page);
+  if (jobPending) startJob();
+}
+function heardPos() {
+  if (!audio.ctx || !pageBuf) return 0;
+  const lat = ((audio.ctx.outputLatency || 0) + (audio.ctx.baseLatency || 0)) * sr;
+  const p = audio.loopPos + Math.max(0, audio.ctx.currentTime * sr - audio.loopFrame) - lat;
+  return ((p % pageBuf.length) + pageBuf.length) % pageBuf.length;
+}
+
+function present() {
+  const w = canvas.width, h = canvas.height;
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, w, h);
+  gl.useProgram(presentProg.p);
+  bindTex(0, T.hist);
+  const u = presentProg.u;
+  gl.uniform1i(u.hist, 0); gl.uniform1i(u.D, D); gl.uniform1i(u.head, colsWritten % D);
+  gl.uniform1i(u.H, H); gl.uniform2f(u.view, w, h); gl.uniform1i(u.mode, S.viewMode === 'phase' ? 1 : 0);
+  const page = isScore();
+  gl.uniform1i(u.page, page ? 1 : 0);
+  // 今まさに聞こえている位置にバーを引く
+  gl.uniform1f(u.playX, page && playing && pageBuf ? heardPos() / pageBuf.length : -1);
+  const si = spanInfo();
+  gl.uniform1f(u.bars, page && si.bars ? si.bars : 0);
+  gl.uniform3f(u.accent, 0.95, 0.64, 0.23);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+/* ------------------------------------------------------------------ */
+/* オーディオ出力                                                      */
+/* ------------------------------------------------------------------ */
+const WORKLET_SRC = `
+class SpecShaderOut extends AudioWorkletProcessor {
+  constructor() {
+    super();
+    this.size = 1 << 18; this.mask = this.size - 1; this.buf = new Float32Array(this.size);
+    this.r = 0; this.w = 0; this.n = 0; this.consumed = 0; this.under = 0; this.epoch = 0;
+    this.gain = 0.5; this.limit = true; this.blocks = 0;
+    this.looping = false; this.loop = null; this.lpos = 0;
+    this.port.onmessage = (e) => {
+      const d = e.data;
+      if (d.mode !== undefined) this.looping = d.mode === 'loop';
+      if (d.loop) { this.lpos = this.loop ? this.lpos % d.loop.length : 0; this.loop = d.loop; }
+      if (d.seek !== undefined) this.lpos = d.seek;
+      if (d.flush) { this.r = this.w; this.n = 0; this.consumed = 0; this.under = 0; this.epoch = d.epoch; }
+      if (d.gain !== undefined) { this.gain = d.gain; this.limit = d.limit; }
+      if (d.samples) {
+        const s = d.samples, m = Math.min(s.length, this.size - this.n);
+        for (let i = 0; i < m; i++) { this.buf[this.w] = s[i]; this.w = (this.w + 1) & this.mask; }
+        this.n += m;
+      }
+    };
+  }
+  process(inputs, outputs) {
+    const L = outputs[0][0], R = outputs[0][1], len = L.length;
+    if (this.looping) {
+      for (let i = 0; i < len; i++) {
+        let v = 0;
+        if (this.loop) { v = this.loop[this.lpos]; if (++this.lpos >= this.loop.length) this.lpos = 0; }
+        v *= this.gain;
+        v = this.limit ? Math.tanh(v) : (v > 1 ? 1 : v < -1 ? -1 : v);
+        if (v !== v) v = 0;
+        L[i] = v; if (R) R[i] = v;
+      }
+      if ((++this.blocks & 3) === 0) this.port.postMessage({ lpos: this.lpos, frame: currentFrame + len });
+      return true;
+    }
+    let missing = 0;
+    for (let i = 0; i < len; i++) {
+      let v = 0;
+      if (this.n > 0) { v = this.buf[this.r]; this.r = (this.r + 1) & this.mask; this.n--; this.consumed++; } else missing++;
+      v *= this.gain;
+      v = this.limit ? Math.tanh(v) : (v > 1 ? 1 : v < -1 ? -1 : v);
+      if (v !== v) v = 0;
+      L[i] = v; if (R) R[i] = v;
+    }
+    if (missing && this.consumed > 0) this.under++;
+    if ((++this.blocks & 3) === 0 || missing) this.port.postMessage({ consumed: this.consumed, frame: currentFrame + len, under: this.under, epoch: this.epoch });
+    return true;
+  }
+}
+registerProcessor('specshader-out', SpecShaderOut);`;
+
+const audio = {
+  ctx: null, node: null, sp: null, mode: '', epoch: 0,
+  sent: 0, lastConsumed: 0, lastFrame: 0, under: 0,
+  looping: false, loopBuf: null, loopPos: 0, loopFrame: 0,
+  // ScriptProcessor 用の予備
+  q: null, qr: 0, qw: 0, qn: 0,
+  async init() {
+    try { this.ctx = new AudioContext({ sampleRate: 48000, latencyHint: 'interactive' }); }
+    catch (e) { this.ctx = new AudioContext({ latencyHint: 'interactive' }); }
+    try {
+      const url = URL.createObjectURL(new Blob([WORKLET_SRC], { type: 'application/javascript' }));
+      await this.ctx.audioWorklet.addModule(url);
+      this.node = new AudioWorkletNode(this.ctx, 'specshader-out', { numberOfInputs: 0, numberOfOutputs: 1, outputChannelCount: [2] });
+      this.node.port.onmessage = (e) => {
+        const d = e.data;
+        if (d.lpos !== undefined) { this.loopPos = d.lpos; this.loopFrame = d.frame; if (job) workJob(4); return; }
+        if (d.epoch !== this.epoch) return;
+        this.lastConsumed = d.consumed; this.lastFrame = d.frame; this.under = d.under;
+        pump();
+      };
+      this.node.connect(this.ctx.destination);
+      this.mode = 'worklet';
+    } catch (e) {
+      this.q = new Float32Array(1 << 18);
+      this.sp = this.ctx.createScriptProcessor(1024, 0, 2);
+      this.sp.onaudioprocess = (ev) => {
+        const L = ev.outputBuffer.getChannelData(0), R = ev.outputBuffer.getChannelData(1);
+        if (this.looping) {
+          const lb = this.loopBuf;
+          for (let i = 0; i < L.length; i++) { let v = 0; if (lb) { v = lb[this.loopPos]; if (++this.loopPos >= lb.length) this.loopPos = 0; } v = shape(v); L[i] = v; R[i] = v; }
+          this.loopFrame = this.ctx.currentTime * this.ctx.sampleRate + L.length;
+          if (job) workJob(4);
+          return;
+        }
+        let missing = 0;
+        for (let i = 0; i < L.length; i++) {
+          let v = 0;
+          if (this.qn > 0) { v = this.q[this.qr]; this.qr = (this.qr + 1) & (this.q.length - 1); this.qn--; this.lastConsumed++; } else missing++;
+          v = shape(v); L[i] = v; R[i] = v;
+        }
+        if (missing && this.lastConsumed > 0) this.under++;
+        this.lastFrame = this.ctx.currentTime * this.ctx.sampleRate + L.length;
+        pump();
+      };
+      this.sp.connect(this.ctx.destination);
+      this.mode = 'script';
+    }
+    this.sendGain();
+  },
+  flush() {
+    this.epoch++; this.sent = 0; this.lastConsumed = 0; this.under = 0;
+    this.lastFrame = this.ctx.currentTime * this.ctx.sampleRate;
+    if (this.node) this.node.port.postMessage({ flush: true, epoch: this.epoch });
+    else { this.qr = this.qw; this.qn = 0; }
+  },
+  setMode(m) {
+    this.looping = m === 'loop';
+    if (this.node) this.node.port.postMessage({ mode: m });
+  },
+  setLoop(buf) {
+    if (this.node) this.node.port.postMessage({ loop: buf.slice() });
+    else { this.loopPos = this.loopBuf ? this.loopPos % buf.length : 0; this.loopBuf = buf; }
+  },
+  seek(p) {
+    this.loopPos = p; this.loopFrame = this.ctx.currentTime * this.ctx.sampleRate;
+    if (this.node) this.node.port.postMessage({ seek: p });
+  },
+  sendGain() { if (this.node) this.node.port.postMessage({ gain: dbToGain(S.gain), limit: !!S.limit }); },
+  push(samples) {
+    this.sent += samples.length;
+    if (this.node) this.node.port.postMessage({ samples }, [samples.buffer]);
+    else {
+      const m = this.q.length - 1;
+      for (let i = 0; i < samples.length && this.qn < this.q.length; i++) { this.q[this.qw] = samples[i]; this.qw = (this.qw + 1) & m; this.qn++; }
+    }
+  },
+  ahead() {
+    const now = this.ctx.currentTime * this.ctx.sampleRate;
+    const consumed = Math.min(this.sent, this.lastConsumed + Math.max(0, now - this.lastFrame));
+    return this.sent - consumed;
+  },
+};
+const dbToGain = (db) => Math.pow(10, db / 20);
+function shape(v) { v *= dbToGain(S.gain); v = S.limit ? Math.tanh(v) : Math.max(-1, Math.min(1, v)); return v === v ? v : 0; }
+
+/* ------------------------------------------------------------------ */
+/* 再生・録音                                                          */
+/* ------------------------------------------------------------------ */
+let playing = false;
+let wall0 = performance.now();
+let meterPeak = 0, clipHold = 0;
+let rec = null;   // { chunks, n }
+
+async function play() {
+  if (playing) return;
+  try {
+    if (!audio.ctx) await audio.init();
+    await audio.ctx.resume();
+  } catch (e) { setLog('オーディオを開始できませんでした: ' + e.message, true); return; }
+  if (audio.ctx.sampleRate !== sr) { sr = audio.ctx.sampleRate; applyConfig(); requestPage(true); }
+  audio.flush();
+  audio.setMode(isScore() ? 'loop' : 'stream');
+  if (isScore() && pageBuf) audio.setLoop(pageBuf);
+  playing = true;
+  updateTransport();
+}
+function stop() {
+  if (!playing) return;
+  playing = false;
+  if (rec) finishRecording();
+  audio.ctx.suspend();
+  audio.flush();
+  wall0 = performance.now() - (n0 / sr) * 1000;
+  updateTransport();
+}
+function rewind() {
+  if (isScore()) { if (audio.ctx) audio.seek(0); return; }
+  n0 = 0; frameNo = 0;
+  wall0 = performance.now();
+  resetHistory();
+  for (const f of [T.fspec0, T.fspec1]) { gl.bindFramebuffer(gl.FRAMEBUFFER, f); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); }
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  if (playing) audio.flush();
+}
+function updateTransport() {
+  $('#play').textContent = playing ? '■ 停止' : '▶ 再生';
+  const chip = $('#chip');
+  chip.textContent = playing ? (rec ? '● 録音中' : isScore() ? 'ループ再生中' : '再生中') : isScore() ? '停止中' : 'プレビュー（無音）';
+  chip.classList.toggle('live', playing);
+  const r = $('#rec');
+  r.classList.toggle('on', !!rec);
+  r.textContent = isScore() ? '⤓ 1周を書き出す' : rec ? '■ 録音を止めて保存' : '● 録音';
+  $('#rewind').textContent = isScore() ? '⏮ 頭から' : '⏮ 0秒へ';
+}
+
+function onAudioFrame(samples) {
+  let peak = 0;
+  const g = dbToGain(S.gain);
+  for (let i = 0; i < samples.length; i++) { const a = Math.abs(samples[i] * g); if (a > peak) peak = a; }
+  if (peak > 1) clipHold = 30;
+  meterPeak = Math.max(peak, meterPeak * 0.92);
+  if (rec) {
+    const c = new Float32Array(samples.length);
+    for (let i = 0; i < samples.length; i++) c[i] = shape(samples[i]);
+    rec.chunks.push(c); rec.n += c.length;
+    if (rec.n > sr * 600) finishRecording();
+  }
+  audio.push(samples);
+}
+
+async function toggleRecord() {
+  if (isScore()) {
+    if (!pageBuf) return;
+    const c = new Float32Array(pageBuf.length);
+    for (let i = 0; i < c.length; i++) c[i] = shape(pageBuf[i]);
+    const stamp = new Date().toISOString().replace(/[-:]/g, '').replace('T', '-').slice(0, 15);
+    saveFile(`specshader-${stamp}.wav`, encodeWav([c], c.length, sr));
+    return;
+  }
+  if (rec) { finishRecording(); return; }
+  if (!playing) await play();
+  if (!playing) return;
+  rec = { chunks: [], n: 0, sr };
+  updateTransport();
+}
+
+function finishRecording() {
+  const r = rec; rec = null; updateTransport();
+  if (!r || r.n === 0) return;
+  const wav = encodeWav(r.chunks, r.n, r.sr);
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace('T', '-').slice(0, 15);
+  saveFile(`specshader-${stamp}.wav`, wav);
+}
+
+function encodeWav(chunks, n, rate) {
+  const buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+  const str = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  str(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); str(8, 'WAVE'); str(12, 'fmt ');
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  str(36, 'data'); v.setUint32(40, n * 2, true);
+  let o = 44;
+  for (const c of chunks) for (let i = 0; i < c.length; i++) { const x = Math.max(-1, Math.min(1, c[i])); v.setInt16(o, x < 0 ? x * 32768 : x * 32767, true); o += 2; }
+  return new Uint8Array(buf);
+}
+
+// claude.ai 上では .wav を直接保存できないので、無圧縮 zip に包んで渡す
+const CRC_TABLE = (() => { const t = new Uint32Array(256); for (let i = 0; i < 256; i++) { let c = i; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[i] = c >>> 0; } return t; })();
+function crc32(b) { let c = 0xffffffff; for (let i = 0; i < b.length; i++) c = CRC_TABLE[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; }
+function zipOne(name, data) {
+  const nm = new TextEncoder().encode(name), crc = crc32(data), size = data.length;
+  const out = new Uint8Array(30 + nm.length + size + 46 + nm.length + 22), v = new DataView(out.buffer);
+  let o = 0;
+  v.setUint32(o, 0x04034b50, true); v.setUint16(o + 4, 20, true); v.setUint16(o + 6, 0x0800, true); v.setUint16(o + 8, 0, true);
+  v.setUint16(o + 10, 0, true); v.setUint16(o + 12, 0x21, true); v.setUint32(o + 14, crc, true); v.setUint32(o + 18, size, true); v.setUint32(o + 22, size, true);
+  v.setUint16(o + 26, nm.length, true); v.setUint16(o + 28, 0, true); out.set(nm, o + 30); out.set(data, o + 30 + nm.length);
+  const cd = 30 + nm.length + size; o = cd;
+  v.setUint32(o, 0x02014b50, true); v.setUint16(o + 4, 20, true); v.setUint16(o + 6, 20, true); v.setUint16(o + 8, 0x0800, true); v.setUint16(o + 10, 0, true);
+  v.setUint16(o + 12, 0, true); v.setUint16(o + 14, 0x21, true); v.setUint32(o + 16, crc, true); v.setUint32(o + 20, size, true); v.setUint32(o + 24, size, true);
+  v.setUint16(o + 28, nm.length, true); v.setUint16(o + 30, 0, true); v.setUint16(o + 32, 0, true); v.setUint16(o + 34, 0, true); v.setUint16(o + 36, 0, true);
+  v.setUint32(o + 38, 0, true); v.setUint32(o + 42, 0, true); out.set(nm, o + 46);
+  o = cd + 46 + nm.length;
+  v.setUint32(o, 0x06054b50, true); v.setUint16(o + 4, 0, true); v.setUint16(o + 6, 0, true); v.setUint16(o + 8, 1, true); v.setUint16(o + 10, 1, true);
+  v.setUint32(o + 12, 46 + nm.length, true); v.setUint32(o + 16, cd, true); v.setUint16(o + 20, 0, true);
+  return out;
+}
+
+const downloadsP = (window.claude && typeof window.claude.use === 'function')
+  ? Promise.resolve().then(() => window.claude.use('downloads')).catch(() => null)
+  : Promise.resolve(null);
+
+async function saveFile(name, bytes) {
+  const dl = await downloadsP;
+  if (dl) {
+    try {
+      await dl.save({ filename: name.replace(/\.wav$/, '.zip'), data: zipOne(name, bytes) });
+      setLog(`録音を保存しました（${name} を zip に入れています）`);
+    } catch (e) {
+      if (e && e.code === 'declined') setLog('保存を取りやめました');
+      else setLog('この画面からは保存できませんでした: ' + ((e && (e.message || e.code)) || e), true);
+    }
+    return;
+  }
+  const url = URL.createObjectURL(new Blob([bytes], { type: 'audio/wav' }));
+  const a = document.createElement('a'); a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  setLog(`録音を書き出しました: ${name}`);
+}
+
+/* ------------------------------------------------------------------ */
+/* エディタ                                                            */
+/* ------------------------------------------------------------------ */
+let editor;
+const host = $('#editorHost');
+if (window.CodeMirror) {
+  const cm = window.CodeMirror(host, {
+    mode: 'x-shader/x-fragment', lineNumbers: true, matchBrackets: true, indentUnit: 4, tabSize: 4,
+    indentWithTabs: false, lineWrapping: false,
+    extraKeys: {
+      'Cmd-Enter': () => compileNow(), 'Ctrl-Enter': () => compileNow(),
+      'Cmd-/': 'toggleComment', 'Ctrl-/': 'toggleComment',
+      Tab: (c) => c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection('    '),
+    },
+  });
+  let marked = [];
+  editor = {
+    get: () => cm.getValue(), set: (v) => cm.setValue(v), onChange: (fn) => cm.on('change', fn),
+    mark(lines) { for (const l of marked) cm.removeLineClass(l, 'background', 'cm-errline'); marked = []; for (const n of lines) { if (n >= 1 && n <= cm.lineCount()) { marked.push(cm.addLineClass(n - 1, 'background', 'cm-errline')); } } },
+    goto(n) { cm.focus(); cm.setCursor({ line: n - 1, ch: 0 }); cm.scrollIntoView(null, 80); },
+  };
+} else {
+  const ta = document.createElement('textarea'); ta.className = 'fallback'; ta.spellcheck = false; ta.id = 'code';
+  host.appendChild(ta);
+  ta.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); compileNow(); }
+    else if (e.key === 'Tab') { e.preventDefault(); const s = ta.selectionStart; ta.setRangeText('    ', s, ta.selectionEnd, 'end'); ta.dispatchEvent(new Event('input')); }
+  });
+  editor = { get: () => ta.value, set: (v) => { ta.value = v; }, onChange: (fn) => ta.addEventListener('input', fn), mark() {}, goto() { ta.focus(); } };
+}
+
+function setLog(msg, isErr) {
+  const el = $('#log');
+  el.textContent = msg;
+  el.classList.toggle('err', !!isErr);
+}
+
+let firstErrLine = 0;
+function compileNow() {
+  const src = editor.get();
+  try {
+    const prog = makeProgram(wrapUser(src));
+    if (userProg) gl.deleteProgram(userProg.p);
+    userProg = prog;
+    requestPage(true);
+    editor.mark([]);
+    firstErrLine = 0;
+    setLog(`OK ・ ${W}×${H} ・ ${(sr / W).toFixed(2)} fps`);
+  } catch (e) {
+    const lines = [];
+    const msg = String(e.message).split('\n').filter((l) => l.trim()).map((l) => {
+      const m = /^(?:ERROR|WARNING):\s*\d+:(-?\d+):\s*(.*)$/.exec(l.trim());
+      if (!m) return l;
+      const n = (+m[1]) - lineOffset;
+      if (n >= 1) lines.push(n);
+      return `${n >= 1 ? n + '行目' : '(内部)'}: ${m[2]}`;
+    }).join('\n');
+    editor.mark(lines);
+    firstErrLine = lines[0] || 0;
+    setLog(msg + '\n（直前に通ったシェーダーで鳴らし続けています）', true);
+  }
+}
+$('#log').addEventListener('click', () => { if (firstErrLine) editor.goto(firstErrLine); });
+
+let compileTimer = 0, saveTimer = 0, loading = false;
+function loadCode(code) { loading = true; editor.set(code); loading = false; }
+editor.onChange(() => {
+  if (!loading) { clearTimeout(saveTimer); saveTimer = setTimeout(() => store.set('specshader.draft', editor.get()), 400); }
+  if (loading) return;
+  if ($('#auto').checked) { clearTimeout(compileTimer); compileTimer = setTimeout(compileNow, 350); }
+});
+
+const sel = $('#example');
+{
+  const o = document.createElement('option'); o.value = 'draft'; o.textContent = '下書き（自動保存）'; sel.appendChild(o);
+  for (const ex of EXAMPLES) { const e = document.createElement('option'); e.value = ex.id; e.textContent = 'サンプル: ' + ex.name; sel.appendChild(e); }
+}
+sel.addEventListener('change', () => {
+  if (sel.value === 'draft') { const d = store.get('specshader.draft'); if (d) loadCode(d); }
+  else { const ex = EXAMPLES.find((x) => x.id === sel.value); if (ex) loadCode(ex.code); }
+  compileNow();
+});
+
+/* ------------------------------------------------------------------ */
+/* 操作盤                                                              */
+/* ------------------------------------------------------------------ */
+function bindNumber(id, key, heavy, after) {
+  const el = $('#' + id); el.value = S[key];
+  el.addEventListener('change', () => {
+    const v = parseFloat(el.value); if (!isFinite(v)) { el.value = S[key]; return; }
+    S[key] = v; saveSettings();
+    if (heavy) { applyConfig(); compileNow(); }
+    if (after) after();
+  });
+}
+bindNumber('rows', 'rows', true);
+bindNumber('fps', 'fps', true);
+bindNumber('fmin', 'fmin', true);
+bindNumber('fmax', 'fmax', true);
+bindNumber('bpm', 'bpm', false, () => { if (isScore()) requestPage(true); else resetHistory(); });
+
+$('#scale').value = S.scale;
+$('#scale').addEventListener('change', (e) => { S.scale = e.target.value; saveSettings(); applyConfig(); requestPage(true); });
+$('#viewMode').value = S.viewMode;
+$('#viewMode').addEventListener('change', (e) => { S.viewMode = e.target.value; saveSettings(); });
+$('#limit').checked = !!S.limit;
+$('#limit').addEventListener('change', (e) => { S.limit = e.target.checked; saveSettings(); if (audio.ctx) audio.sendGain(); });
+
+function bindRange(id, key, label, fmt, after) {
+  const el = $('#' + id), lb = $('#' + label);
+  el.value = S[key]; lb.textContent = fmt(S[key]);
+  el.addEventListener('input', () => { S[key] = parseFloat(el.value); lb.textContent = fmt(S[key]); if (after) after(); });
+  el.addEventListener('change', saveSettings);
+}
+bindRange('gain', 'gain', 'gainLabel', (v) => (v > 0 ? '+' : '') + v.toFixed(1) + ' dB', () => { if (audio.ctx) audio.sendGain(); });
+bindRange('latency', 'latency', 'latLabel', (v) => v + ' ms');
+$('#layout').value = S.layout;
+$('#layout').addEventListener('change', (e) => {
+  if (playing) stop();
+  S.layout = e.target.value; saveSettings();
+  job = null; n0 = 0; frameNo = 0; wall0 = performance.now();
+  resetHistory();
+  requestPage(true);
+  updateTransport();
+});
+$('#span').value = S.span;
+$('#span').addEventListener('change', (e) => { S.span = e.target.value; saveSettings(); if (isScore()) requestPage(true); else resetHistory(); });
+
+$('#gridPreset').addEventListener('click', () => {
+  Object.assign(S, { rows: 433, scale: 'log', fmin: DEFAULTS.fmin, fmax: DEFAULTS.fmax });
+  for (const k of ['rows', 'fmin', 'fmax']) $('#' + k).value = S[k];
+  $('#scale').value = 'log';
+  saveSettings(); applyConfig(); compileNow();
+});
+$('#latency').closest('.ctl').title = '流れる（ライブ）表示のときの先読み';
+
+$('#play').addEventListener('click', () => (playing ? stop() : play()));
+$('#rewind').addEventListener('click', rewind);
+$('#rec').addEventListener('click', toggleRecord);
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && !e.target.closest('.editor, input, select, textarea, button')) { e.preventDefault(); playing ? stop() : play(); }
+});
+
+canvas.addEventListener('pointermove', (e) => {
+  const r = canvas.getBoundingClientRect();
+  mouse = [Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), Math.min(1, Math.max(0, 1 - (e.clientY - r.top) / r.height))];
+  if (userProg && userProg.u.mouse) requestPage(false);
+});
+
+new ResizeObserver(() => {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = canvas.getBoundingClientRect();
+  canvas.width = Math.max(1, Math.round(r.width * dpr));
+  canvas.height = Math.max(1, Math.round(r.height * dpr));
+}).observe($('#view'));
+
+/* ------------------------------------------------------------------ */
+/* ループ                                                              */
+/* ------------------------------------------------------------------ */
+// 再生中はオーディオ側からの知らせ（約10msごと）でも回す。
+// タブが裏に回って requestAnimationFrame が止まっても音が途切れないように
+function pump() {
+  if (!playing || isScore()) return;
+  const target = S.latency / 1000 * sr;
+  let ahead = audio.ahead(), made = 0;
+  while (ahead < target && made < 12) { onAudioFrame(renderFrame()); ahead += W; made++; }
+}
+
+let lastStatus = 0;
+function tick(now) {
+  requestAnimationFrame(tick);
+  let made = 0;
+  if (isScore()) {
+    workJob(12);
+  } else if (playing) {
+    pump();
+  } else {
+    const due = (now - wall0) / 1000 * sr;
+    if (due - n0 > W * 12) wall0 = now - (n0 / sr) * 1000;
+    while (n0 + W <= (now - wall0) / 1000 * sr && made < 12) { renderFrame(); made++; }
+  }
+  present();
+
+  if (isScore() && playing && pageBuf) {
+    const c = Math.floor(heardPos()), g = dbToGain(S.gain);
+    let pk = 0;
+    for (let i = 0; i < 1024; i++) { const a = Math.abs(pageBuf[(c + i) % pageBuf.length] * g); if (a > pk) pk = a; }
+    if (pk > 1) clipHold = 30;
+    meterPeak = Math.max(pk, meterPeak);
+  }
+  meterPeak *= 0.96;
+  if (clipHold > 0) clipHold--;
+  $('#meterFill').style.width = Math.min(100, meterPeak * 100).toFixed(1) + '%';
+  $('#meter').classList.toggle('clip', clipHold > 0);
+
+  if (now - lastStatus > 250) {
+    lastStatus = now;
+    const parts = [`${W}×${H}`, `${(sr / W).toFixed(1)} fps`, `${(sr / 1000).toFixed(1)} kHz`];
+    if (isScore()) parts.push(job ? `描き直し中 ${Math.round(100 * job.pos / job.total)}%` : `1周の描画 ${(jobMs / 1000).toFixed(2)} 秒`);
+    else parts.push(`描画 ${gpuMs.toFixed(1)} ms/フレーム`);
+    if (playing && !isScore()) parts.push(`先読み ${(audio.ahead() / sr * 1000).toFixed(0)} ms`, `途切れ ${audio.under}`);
+    if (rec) parts.push(`録音 ${(rec.n / sr).toFixed(1)} 秒`);
+    $('#status').textContent = parts.join(' ・ ');
+    const si = spanInfo();
+    $('#spanLabel').textContent = (isScore() ? pageLen / sr : D * spc / sr).toFixed(2) + ' 秒';
+    if (isScore()) {
+      const hp = playing && pageBuf ? heardPos() / sr : 0;
+      $('#timeLabel').textContent = playing ? `t ${hp.toFixed(2)} s` + (si.bars ? ` ・ ${Math.floor(hp * S.bpm / 240) + 1} 小節目` : '') : '';
+    } else {
+      $('#timeLabel').textContent = `time ${(n0 / sr).toFixed(2)} s` + (si.bars ? ` ・ ${Math.floor(n0 / sr * S.bpm / 240) + 1} 小節目` : '');
+    }
+  }
+}
+
+/* 起動 */
+if (location.hash === '#debug') window.__ss = { seek(s) { n0 = Math.round(s * sr); }, get pageBuf() { return pageBuf; }, get job() { return job; }, get pageLen() { return pageLen; }, workJob, renderFrame, compileNow, loadCode, audio, get lineOffset() { return lineOffset; }, get W() { return W; }, get sr() { return sr; }, get log() { return $('#log').textContent; }, S };
+applyConfig();
+const draft = store.get('specshader.draft');
+if (draft && draft.trim()) { loadCode(draft); sel.value = 'draft'; }
+else { loadCode(EXAMPLES[0].code); sel.value = EXAMPLES[0].id; }
+compileNow();
+updateTransport();
+requestAnimationFrame(tick);
+})();
+</script>
+
+</body></html>
