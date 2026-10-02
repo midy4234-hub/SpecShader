@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "Minimum macOS version")
 set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Build architectures")
 
+# Windows: C++ ランタイムを DLL に組み込む (VC++ 再頒布可能パッケージが無い PC でも読み込めるように)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "MSVC runtime")
+
 project(SpecShaderVST VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
