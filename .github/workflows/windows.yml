@@ -1,0 +1,28 @@
+# Windows (x64) 用 VST3 のビルド。Actions の実行結果ページの Artifacts から SpecShader-windows-x64 をダウンロードできる
+# GitHub のランナーには GPU が無く OpenGL 3.3 が作れないので、ここではビルドだけ。動作は実機 (サブ機) で確かめる
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  plugin:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -A x64 -DLAB_BUILD_TESTS=ON
+      - name: Build plugin
+        run: cmake --build build --config Release --target SpecShaderVST_VST3 --parallel
+      - name: Build test driver
+        run: cmake --build build --config Release --target SpecShaderVSTTest --parallel
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SpecShader-windows-x64
+          path: build/SpecShaderVST_artefacts/Release/VST3/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SpecShaderVSTTest-windows-x64
+          path: build/SpecShaderVSTTest_artefacts/Release/
